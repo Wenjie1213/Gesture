@@ -1254,8 +1254,9 @@ _renderTimeoutPage() {
       <div class="timeout-card-name">${meta.name}</div>
     `;
 
-    btn.onclick = () => {
+    btn.onclick = async () => {
       this._stopTimeoutPageHandTracking();
+      await this._sendGestureToArduino(key);
       this.exploreGesture(key);
     };
 
