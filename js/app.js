@@ -25,7 +25,12 @@ const findCountryByCode = (countries, code) => {
   const target = String(code).toUpperCase();
   return countries.find(c => String(c.code).toUpperCase() === target) || null;
 };
-
+const getFlag = (code) => {
+  if (!code) return '';
+  return `<img src="https://flagcdn.com/${String(code).toLowerCase()}.svg"
+               alt="flag"
+               style="width:100%;height:100%;object-fit:cover;display:block;">`;
+};
 class App {
   constructor() {
     this.currentGesture = null; 
@@ -2175,7 +2180,7 @@ _setTimeoutMode(mode) {
     return `
       <div class="rcard-inner">
         <div class="rcard-left-col">
-          <div class="rcard-flag-circle">${country.flag}</div>
+          <div class="rcard-flag-circle">${getFlag(country.code)}</div>
           <div class="rcard-country-name">${country.name}</div>
           <div class="rcard-meaning-pill"
                style="background:${color}22;color:${color};border-color:${color}66">
@@ -2195,7 +2200,7 @@ _setTimeoutMode(mode) {
     const label = resultTypeLabel(type);
     return `
       <div class="rcard-inner rcard-inner-side">
-        <div class="rcard-flag-circle">${country.flag}</div>
+        <div class="rcard-flag-circle">${getFlag(country.code)}</div>
         <div class="rcard-country-name">${country.name}</div>
         <div class="rcard-meaning-pill"
              style="background:${color}22;color:${color};border-color:${color}66">
