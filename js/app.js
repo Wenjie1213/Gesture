@@ -2326,7 +2326,7 @@ _setTimeoutMode(mode) {
       if (shown >= total) {
         // All cards shown — go back to landing
         this._resultAutoplayTimer = null;
-        // this._showPage('landing');
+        this._showPage('landing');
         location.hash = 'landing';
         return;
       }
