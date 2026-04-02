@@ -575,7 +575,7 @@ _updateHoldState(gesture) {
   }
 
   // 3) 同一个候选持续中
-  const holdMs = gesture === 'unknown' ? 5000 : this.HOLD_MS;
+  const holdMs = gesture === 'unknown' ? 15000 : this.HOLD_MS;
   const elapsed = now - this.holdStartTime;
   const ratio = Math.min(elapsed / holdMs, 1);
   this.progress = ratio;

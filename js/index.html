@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GestureWorld — One Gesture, Many Meanings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+<div id="flash"></div>
+<div id="toast"></div>
+
+<div id="app">
+
+  <!-- ══════════════════════════════════════════
+       PAGE LANDING · RULE OF THUMB
+  ══════════════════════════════════════════ -->
+  <section id="page-landing" class="page active">
+
+    <!-- Background video -->
+    <video class="landing-bg-video" autoplay muted loop playsinline aria-hidden="true">
+      <source src="video/robot.mp4" type="video/mp4">
+    </video>
+
+    <!-- Grain overlay -->
+    <div class="landing-grain"></div>
+
+    <!-- Hidden camera feed for consent detection -->
+    <video id="landing-video" playsinline style="display:none"></video>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PAGE GROUP1 · TRANSITION SCREEN
+  ══════════════════════════════════════════ -->
+  <section id="page-group1" class="page">
+    <img class="group1-img" src="image/Group1.png" alt="" aria-hidden="true">
+  </section>
+
+
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 · SCENARIO (VIDEO VERSION)
+  ══════════════════════════════════════════ -->
+  <section id="page-scenario" class="page">
+
+    <div class="scenario-video-stage">
+      <video id="scenario-video" class="scenario-video" muted playsinline></video>
+      <div class="scenario-text-region">
+        <div id="scenario-random-text" class="scenario-random-text"></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 · CAMERA
+  ══════════════════════════════════════════ -->
+<section id="page-camera" class="page">
+
+  <header class="app-header">
+    <button class="btn-back" onclick="app.goBack()">← Back</button>
+    <div class="header-logo">
+      <span class="logo-star">✦</span> Gesture Detection
+    </div>
+    <div class="header-right"></div>
+  </header>
+
+  <div id="camera-hand-pointer" aria-hidden="true"></div>
+
+  <div class="camera-layout">
+
+    <div class="camera-area">
+      <div id="cam-viewport" class="cam-viewport">
+        <video id="webcam" playsinline></video>
+        <canvas id="overlay"></canvas>
+        <div class="cam-status-badge">
+          <span id="cam-dot" class="cam-dot"></span>
+          <span id="cam-text">Initializing…</span>
+        </div>
+        <div class="cam-hint">Show your hand clearly to the camera</div>
+      </div>
+
+      <div class="fallback-bar">
+        <span class="fallback-label">Camera not working?</span>
+        <div id="fallback-btns" class="fallback-btns"></div>
+      </div>
+    </div>
+
+    <div class="cam-sidebar">
+      <div class="panel-card scenario-mini-card">
+        <div class="panel-label">Scenario</div>
+        <span id="mini-emoji" class="scene-mini-emoji"></span>
+        <p id="mini-text" class="scene-mini-text"></p>
+      </div>
+
+      <div class="panel-card detect-panel">
+        <div class="panel-label">Detecting</div>
+        <div class="ring-wrap">
+          <svg class="progress-ring" viewBox="0 0 80 80">
+            <circle class="ring-bg" cx="40" cy="40" r="34"></circle>
+            <circle id="ring-fill" class="ring-fill" cx="40" cy="40" r="34"></circle>
+          </svg>
+          <div id="detect-emoji" class="detect-emoji">
+            <img src="image_newest/open palm.PNG" alt="gesture">
+          </div>
+        </div>
+        <div id="detect-name" class="detect-name">Waiting…</div>
+        <div id="detect-desc" class="detect-desc">Show one of these gestures:</div>
+        <div id="detect-gestures" class="detect-gestures"></div>
+
+        <div class="unk-countdown" id="unk-countdown">
+          <div class="unk-top">
+            <span class="unk-icon">⚠</span>
+            <span class="unk-msg">Gesture not recognized</span>
+          </div>
+          <div class="unk-bar-wrap">
+            <div class="unk-bar-fill" id="unk-bar-fill"></div>
+          </div>
+          <p class="unk-secs-text">Redirecting in <span id="unk-secs-num">5</span>s…</p>
+        </div>
+      </div>
+
+      <div class="timeout-bar" id="timeout-bar">
+        <div class="timeout-fill" id="timeout-fill"></div>
+      </div>
+      <div class="timeout-label" id="timeout-label">
+        Auto-exploring in <span id="timeout-count">15</span>s
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 · RESULT  (exhibition style)
+  ══════════════════════════════════════════ -->
+  <section id="page-result" class="page">
+
+    <!-- Background world map layer -->
+    <div id="result-map-bg" class="result-map-bg"></div>
+
+    <!-- Top gradient overlay -->
+    <div class="result-top-gradient"></div>
+
+    <!-- Gesture name row -->
+    <div class="result-gesture-row">
+      <div id="result-gesture-img-wrap" class="result-gesture-img-wrap"></div>
+      <h1 id="result-gesture-name" class="result-gesture-name"></h1>
+    </div>
+
+    <!-- Card carousel -->
+    <div class="result-carousel-area">
+      <div class="result-carousel" id="result-carousel"></div>
+    </div>
+
+    <!-- Nav arrows -->
+    <button id="result-arrow-left" class="result-arrow result-arrow-left" onclick="app.resultNav(-1)">&#8249;</button>
+    <button id="result-arrow-right" class="result-arrow result-arrow-right" onclick="app.resultNav(1)">&#8250;</button>
+    
+    <!-- Bottom-left: zoom + legend -->
+    <div class="result-controls-bl">
+      <div class="result-zoom-wrap">
+        <button class="result-zoom-btn" id="result-zoom-in">+</button>
+        <button class="result-zoom-btn" id="result-zoom-out">&#8722;</button>
+      </div>
+      <div class="result-legend">
+        <div class="result-leg-item"><span class="result-leg-dot" style="background:#4CAF50"></span>Positive</div>
+        <div class="result-leg-item"><span class="result-leg-dot" style="background:#D9A441"></span>Neutral</div>
+        <div class="result-leg-item"><span class="result-leg-dot" style="background:#D9534F"></span>Negative / Insult</div>
+      </div>
+    </div>
+
+
+    <!-- Hand swipe status pill (top-centre) -->
+    <div id="result-swipe-hint" class="result-swipe-hint"></div>
+
+    <div id="result-hand-pointer"></div>
+
+    <!-- Hidden video for hand swipe tracking -->
+    <video id="result-video" playsinline muted style="display:none"></video>
+
+  </section>
+
+<!-- ══════════════════════════════════════════
+     PAGE TIMEOUT · GESTURE SUGGESTIONS
+══════════════════════════════════════════ -->
+<section id="page-timeout" class="page">
+
+  <header class="timeout-header">
+    <button id="timeout-try-again-btn" class="timeout-back-btn" onclick="app.startCamera()">← Try Again</button>
+    <div class="timeout-logo">✦ GestureWorld</div>
+    <div class="timeout-header-right">
+      <button class="timeout-header-btn" type="button">Explore</button>
+      <button class="timeout-header-btn" type="button">How it Works</button>
+      <button class="timeout-header-btn" type="button">About</button>
+    </div>
+  </header>
+
+  <div class="timeout-main">
+    <h1 class="timeout-title">We couldn't clearly detect your gesture.</h1>
+    <p class="timeout-copy">
+      Make sure your hand is well-lit and fully in the frame. Then show one of the
+      gestures below - the camera will detect it automatically.
+    </p>
+
+    <div class="timeout-hand-pill">
+      <span class="timeout-hand-pill-dot"></span>
+      <span id="timeout-hand-hint">Show one of these gestures…</span>
+    </div>
+
+    <div class="timeout-subtitle">SHOW ONE OF THESE GESTURES:</div>
+    <div id="timeout-gesture-grid" class="timeout-gesture-grid"></div>
+  </div>
+
+  <div id="timeout-hand-pointer"></div>
+  <video id="timeout-video" playsinline muted style="display:none"></video>
+</section>
+
+
+
+
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 · UNKNOWN GESTURE ARCHIVE
+  ══════════════════════════════════════════ -->
+  <section id="page-fallback" class="page">
+
+    <!-- Light veil over the fallback_page background -->
+    <div class="arc-overlay" aria-hidden="true"></div>
+
+    <!-- Top navigation -->
+    <header class="arc-nav">
+      <button class="arc-nav-btn" onclick="app.showHome()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Restart
+      </button>
+      <div class="arc-nav-right">
+        <button class="arc-nav-btn" onclick="typeof goExplore==='function'&&goExplore()">Explore</button>
+        <button class="arc-nav-btn" onclick="typeof goHowItWorks==='function'&&goHowItWorks()">How it Works</button>
+        <button class="arc-nav-btn" onclick="typeof goAbout==='function'&&goAbout()">About</button>
+      </div>
+    </header>
+
+    <!-- Main two-column area -->
+    <div class="arc-main">
+
+      <!-- Left/centre column: scroll-focus narrative -->
+      <div class="arc-narrative-wrap">
+        <!-- Fixed-height viewport that clips the scroll track vertically -->
+        <div class="arc-scroll-viewport">
+          <!-- Moving track: translateY shifts to keep the active line centred -->
+          <div class="arc-lines" id="archive-lines"></div>
+        </div>
+      </div>
+
+      <!-- Right column: archive module (folder behind, card in front) -->
+      <div class="arc-module">
+
+        <!-- Frame 28: folder / archive visual (behind the card) -->
+        <img src="image/Frame 28.png" class="arc-folder-img" alt="" aria-hidden="true">
+
+        <!-- Rectangle 83: white evidence card (in front) -->
+        <div class="arc-card">
+
+          <!-- Upper ~58%: frozen hand skeleton -->
+          <div class="arc-card-skeleton">
+            <canvas id="archive-skeleton-canvas"></canvas>
+            <span class="arc-card-badge">UNCLASSIFIED INPUT</span>
+          </div>
+
+          <!-- Lower ~42%: archive metadata fields -->
+          <div class="arc-card-meta">
+            <div class="arc-meta-row">
+              <span class="arc-meta-key">ENTRY</span>
+              <span class="arc-meta-val" id="archive-meta-entry">#024</span>
+            </div>
+            <div class="arc-meta-row">
+              <span class="arc-meta-key">STATUS</span>
+              <span class="arc-meta-val arc-meta-status">Unclassified</span>
+            </div>
+            <div class="arc-meta-row">
+              <span class="arc-meta-key">SOURCE</span>
+              <span class="arc-meta-val">Live input</span>
+            </div>
+            <div class="arc-meta-row">
+              <span class="arc-meta-key">TIME</span>
+              <span class="arc-meta-val" id="archive-meta-time">—</span>
+            </div>
+          </div>
+
+        </div><!-- /.arc-card -->
+
+        <!-- QR code + robot callout to its left -->
+        <div class="arc-qr-wrap">
+          <div class="arc-qr-callout">
+            <div class="arc-qr-callout-header">
+              <span class="arc-qr-robot-icon">◈</span>
+              <span class="arc-qr-callout-label">SYSTEM REQUEST</span>
+            </div>
+            <p class="arc-qr-callout-text">
+              Meaning: unknown.<br>
+              Scan to teach me yours.
+            </p>
+            <div class="arc-qr-callout-arrow"></div>
+          </div>
+          <img src="image/QRcode.png" class="arc-qr" alt="QR Code">
+        </div>
+
+      </div><!-- /.arc-module -->
+
+    </div><!-- /.arc-main -->
+
+    <!-- Bottom archive receipt -->
+    <div class="arc-footer">
+      <span class="arc-footer-centre">UNKNOWN ARCHIVE &nbsp;—&nbsp; 24 entries &nbsp;—&nbsp; Saved successfully</span>
+      <span class="arc-footer-right">Action: Archived</span>
+    </div>
+
+    <div id="fallback-hand-pointer"></div>
+
+    <!-- Hidden video/canvas used for fallback page hand tracking -->
+    <video id="fallback-video" playsinline muted style="display:none"></video>
+    <canvas id="fallback-canvas" style="display:none"></canvas>
+
+  </section>
+
+<!-- ══════════════════════════════════════════
+       PAGE 5 data
+  ══════════════════════════════════════════ -->
+<section id="page-database" class="page">
+  <header class="app-header">
+    <button class="btn-back" onclick="app.showHome()">← Back</button>
+    <div class="header-logo">
+      <span class="logo-star">✦</span> Gesture Database
+    </div>
+    <div class="header-right">
+      <button class="nav-btn db-clear-btn" onclick="app.clearUnknownGestureRecords()">
+        Clear Database
+      </button>
+    </div>
+  </header>
+
+  <div class="db-page-wrap">
+    <div class="db-page-head">
+      <p class="db-page-kicker">Unknown Gesture Records</p>
+      <h1 class="db-page-title">Database</h1>
+      <p class="db-page-sub">
+        URL: <code>#database</code>
+      </p>
+    </div>
+
+    <div id="db-record-list" class="db-record-list"></div>
+  </div>
+</section>
+
+
+
+
+
+</div><!-- /#app -->
+
+
+
+<!-- GESTURE CONFIRMATION OVERLAY -->
+<div id="confirm-overlay" class="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-label">Confirm Your Gesture</div>
+    <div id="confirm-emoji" class="confirm-emoji">
+      <img src="image_newest/open palm.PNG" alt="gesture">
+    </div>
+    <div id="confirm-name" class="confirm-name"></div>
+    <p class="confirm-question">Is this the gesture you meant?</p>
+    <div class="confirm-actions">
+      <button class="btn-confirm-yes" onclick="app.confirmGesture()">✓ Yes, that's it!</button>
+      <button class="btn-confirm-no"  onclick="app.retryGesture()">↩ Try Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<script src="js/gesture_data.js"></script>
+<script src="js/scenario-data.js"></script>
+<script src="js/serial.js"></script> <!--Add New-->
+<script src="js/gesture.js"></script>
+<script src="js/scenario-typewriter.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
