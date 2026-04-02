@@ -397,9 +397,7 @@ async _handleHashRoute() {
   }
 
   if (!hash || hash === 'landing') {
-    await this.resetArduinoHand();
     await this._showPage('landing');
-    return;
   }
 }
 
@@ -751,13 +749,13 @@ cleanupAllPageInteractions() {
 
   // ── Public nav methods ──────────────────────────────────────────────────
   async showHome() {
-    // await this.resetArduinoHand();
+    await this.resetArduinoHand();
 
     if (typeof stopGesture === 'function') {
       await Promise.resolve(stopGesture()).catch(() => {});
     }
 
-    // await this._showPage('landing');
+    await this._showPage('landing');
     this.currentScene = null;
     location.hash = 'landing';
   }
