@@ -268,7 +268,7 @@ const GESTURE_DATA = {
         flag: "🇧🇷",
         type: "negative",
         meaning: "People relate it to infidelity, so it's like accusing someone of such.",
-        detail: "In Brazil, the horns gesture is commonly associated with heavy metal or rock music culture."
+        detail: "In Brazil, the horns gesture can be interpreted as a sign of infidelity or insult in some contexts."
       },
       {
         code: "CO",
