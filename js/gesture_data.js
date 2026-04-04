@@ -116,7 +116,7 @@ const GESTURE_DATA = {
         code: "US",
         name: "United States of America",
         flag: "🇺🇸",
-        type: "negative",
+        type: "neutral",
         meaning: "come towards me",
         detail: "In the United States, curling the finger toward oneself is commonly used to beckon someone to come closer."
       },
@@ -140,7 +140,7 @@ const GESTURE_DATA = {
         code: "VN",
         name: "Vietnam",
         flag: "🇻🇳",
-        type: "negative",
+        type: "neutral",
         meaning: "it means that the person has to come forward.",
         detail: "In Vietnam, beckoning with a curled finger is commonly used to signal someone to come forward."
       },
@@ -200,12 +200,12 @@ const GESTURE_DATA = {
         detail: "In Mexico, bending the index finger downward is sometimes used in informal contexts to money or payment"
       },
       {
-        code: "PH",
+        code: "MM",
         name: "Myanmar",
-        flag: "🇵🇭",
+        flag: "🇲🇲",
         type: "negative",
         meaning: "Death",
-        detail: "In Mexico, bending the index finger downward usally means death."
+        detail: "In Myanmar, bending the index finger downward usually means death."
       },
       {
         code: "JP",
@@ -591,7 +591,7 @@ const GESTURE_DATA = {
         code: "VE",
         name: "Venezuela",
         flag: "🇻🇪",
-        type: "negative",
+        type: "neutral",
         meaning: "understood, ok, that's fine",
         detail: "In Venezuela, the OK gesture is generally used to indicate understanding, agreement, or that something is fine."
       },
@@ -702,7 +702,7 @@ const GESTURE_DATA = {
         code: "US",
         name: "United States of America",
         flag: "🇺🇸",
-        type: "positive",
+        type: "neutral",
         meaning: "Wide meaning, friendly, stop, back off or grab someone's attention",
         detail: "In the United States, an open palm with fingers spread can carry several general meanings depending on the context, such as signaling friendliness, asking someone to stop or back off, or trying to grab someone's attention."
       },
@@ -757,7 +757,7 @@ const GESTURE_DATA = {
         code: "SG",
         name: "Singapore",
         flag: "🇸🇬",
-        type: "netrual",
+        type: "neutral",
         meaning: "The most important thing",
         detail: "In Singapore, extending the index finger can be used to indicate that something is the most important or to emphasize priority"
       },
@@ -843,7 +843,7 @@ const GESTURE_DATA = {
         code: "CA",
         name: "Canada",
         flag: "🇨🇦",
-        type: "neutral",
+        type: "negative",
         meaning: "sexual connotations",
         detail: "In Canada, the shocker gesture is interpreted as a crude sexual reference and is generally considered vulgar."
       },
@@ -929,7 +929,7 @@ const GESTURE_DATA = {
         code: "TH",
         name: "Thailand",
         flag: "🇹🇭",
-        type: "negative",
+        type: "positive",
         meaning: "this is to shown their proud and respect to their country",
         detail: "In Thailand, the three-finger salute may symbolize pride, respect, or national identity depending on context."
       },
@@ -1024,17 +1024,17 @@ const GESTURE_DATA = {
         code: "NG",
         name: "Nigeria",
         flag: "🇳🇬",
-        type: "negative",
+        type: "positive",
         meaning: "it means okay",
         detail: "In Nigeria, the thumbs up gesture is commonly used to indicate agreement or approval."
       },
       {
         code: "CI",
-        name: "C?te d'Ivoire",
+        name: "Côte d'Ivoire",
         flag: "🇨🇮",
         type: "negative",
         meaning: "as impolite and uncaring",
-        detail: "In C?te d'Ivoire, the thumbs up gesture may sometimes be interpreted as impolite or uncaring depending on the context."
+        detail: "In Côte d'Ivoire, the thumbs up gesture may sometimes be interpreted as impolite or uncaring depending on the context."
       },
       {
         code: "IQ",
@@ -1063,7 +1063,7 @@ const GESTURE_DATA = {
         code: "AU",
         name: "Australia",
         flag: "🇦🇺",
-        type: "negative",
+        type: "positive",
         meaning: "as peace",
         detail: "In Australia, the V sign is commonly interpreted as a symbol of peace when shown with the palm facing outward."
       },
@@ -1071,7 +1071,7 @@ const GESTURE_DATA = {
         code: "NZ",
         name: "New Zealand",
         flag: "🇳🇿",
-        type: "negative",
+        type: "positive",
         meaning: "it means \"peace\"",
         detail: "In New Zealand, the V sign is widely understood as a gesture representing peace or goodwill."
       },
@@ -1103,7 +1103,7 @@ const GESTURE_DATA = {
         code: "IE",
         name: "Ireland",
         flag: "🇮🇪",
-        type: "negative",
+        type: "positive",
         meaning: "peace or victory",
         detail: "In Ireland, the V sign is commonly interpreted as representing peace or victory."
       },
