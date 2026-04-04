@@ -187,7 +187,7 @@ const GESTURE_DATA = {
         code: "CN",
         name: "China",
         flag: "🇨🇳",
-        type: "netrual",
+        type: "neutral",
         meaning: "It's a number 9",
         detail: "In China, bending the index finger downward is used as a hand gesture to represent the number nine, as part of a unique finger-counting system."
       },
@@ -195,7 +195,7 @@ const GESTURE_DATA = {
         code: "MX",
         name: "Mexico",
         flag: "🇲🇽",
-        type: "netrual",
+        type: "neutral",
         meaning: "Money",
         detail: "In Mexico, bending the index finger downward is sometimes used in informal contexts to money or payment"
       },
@@ -211,7 +211,7 @@ const GESTURE_DATA = {
         code: "JP",
         name: "Japan",
         flag: "🇯🇵",
-        type: "netrual",
+        type: "neutral",
         meaning: "theft",
         detail: "In Japan, bending the index finger downward can resemble the action of hooking or snatching something"
       }
