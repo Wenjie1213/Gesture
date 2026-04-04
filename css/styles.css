@@ -2453,17 +2453,31 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   text-align: center;
 }
-.timeout-title {
-  font-size: clamp(34px, 4vw, 48px);
-  line-height: 1.15;
-  max-width: 780px;
+.timeout-eyebrow {
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(26,26,24,0.45);
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
-.timeout-copy {
-  margin-top: 28px;
-  max-width: 760px;
-  font-size: 18px;
-  line-height: 1.65;
-  color: rgba(26,26,24,0.7);
+.timeout-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 22px;
+}
+.timeout-instruction-line {
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #1a1a18;
+}
+.timeout-supplementary {
+  font-size: clamp(13px, 1.2vw, 16px);
+  color: rgba(26,26,24,0.45);
+  margin-bottom: 4px;
 }
 .timeout-hand-pill {
   margin-top: 26px;
@@ -2498,34 +2512,49 @@ a { text-decoration: none; color: inherit; }
 }
 .timeout-gesture-card {
   width: 190px;
-  min-height: 220px;
+  min-height: 240px;
   border-radius: 24px;
   border: 1px solid rgba(0,0,0,0.1);
   background: rgba(255,255,255,0.72);
-  padding: 26px 18px 24px;
+  padding: 22px 18px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 10px;
   transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
+.timeout-card-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(26,26,24,0.3);
+  align-self: flex-start;
+}
 .timeout-card-icon-wrap {
-  width: 112px;
-  height: 112px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  border: 5px solid rgba(0,0,0,0.12);
+  border: 3px solid rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.6;
 }
 .timeout-card-icon {
-  width: 72px;
-  height: 72px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
 }
 .timeout-card-name {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 700;
+  color: #1a1a18;
+}
+.timeout-card-cta {
+  font-size: 13px;
+  color: rgba(37,99,235,0.7);
+  font-weight: 600;
+  margin-top: auto;
 }
 .timeout-gesture-card:hover,
 .timeout-gesture-card.timeout-gesture-hover,
