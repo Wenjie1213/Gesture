@@ -1095,7 +1095,7 @@ async goBack() {
       // 暂停“没手”的 timeout 倒计时
       this._setTimeoutMode('paused');
 
-      const UNKNOWN_HOLD_SECONDS = 15;
+      const UNKNOWN_HOLD_SECONDS = 25;
       const secsLeft = Math.max(0, Math.ceil(UNKNOWN_HOLD_SECONDS * (1 - progress)));
 
       const secsEl = document.getElementById('unk-secs-num');
@@ -1220,6 +1220,14 @@ _showTimeoutPage() {
   this._renderTimeoutPage();
   this._showPage('timeout');
   this._setupTimeoutPageInteraction();
+
+  // 双保险：timeout 页停留 15s 无操作 → 返回首页
+  this._timeoutPageIdleTimer = setTimeout(() => {
+    if (this.pages.timeout?.classList.contains('active')) {
+      this._stopTimeoutPageHandTracking();
+      this.showHome();
+    }
+  }, 15000);
 }
 
 _renderTimeoutPage() {
@@ -1239,19 +1247,22 @@ _renderTimeoutPage() {
   wrap.innerHTML = '';
   const gestures = this.currentScene?.gestures || [];
 
-  gestures.forEach((key) => {
+  gestures.forEach((key, idx) => {
     const meta = GESTURE_META[key];
     if (!meta) return;
 
+    const num = String(idx + 1).padStart(2, '0');
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'timeout-gesture-card';
     btn.dataset.gesture = key;
     btn.innerHTML = `
+      <div class="timeout-card-num">${num}</div>
       <div class="timeout-card-icon-wrap">
         <img src="${meta.image}" class="timeout-card-icon" alt="${meta.name}">
       </div>
       <div class="timeout-card-name">${meta.name}</div>
+      <div class="timeout-card-cta">Explore →</div>
     `;
 
     btn.onclick = () => {
@@ -1370,7 +1381,7 @@ _setupTimeoutPageInteraction() {
       hidePointer();
       clearHoveredTarget();
       fistLatched = false;
-      setHint('Open palm to move cursor');
+      setHint('Open palm to move');
       return;
     }
 
@@ -1384,7 +1395,7 @@ _setupTimeoutPageInteraction() {
     if (isOpenPalm(lm)) {
       setHoveredTarget(target);
       fistLatched = false;
-      setHint(target ? 'Fist to click' : 'Open palm to move cursor');
+      setHint('Close hand to select');
       return;
     }
 
@@ -1394,13 +1405,13 @@ _setupTimeoutPageInteraction() {
         hoveredTarget.click();
         setHint('Action confirmed');
       } else if (!hoveredTarget) {
-        setHint('Move over a button first');
+        setHint('Move over a gesture first');
       }
       return;
     }
 
     fistLatched = false;
-    setHint('Open palm to move, fist to confirm');
+    setHint('Open palm to move');
   });
 
   this._timeoutHandsCamera = new Camera(video, {
@@ -1410,7 +1421,7 @@ _setupTimeoutPageInteraction() {
   });
 
   this._timeoutHandsCamera.start()
-    .then(() => setHint('Open palm to move cursor'))
+    .then(() => setHint('Open palm to move'))
     .catch((e) => {
       console.warn('Timeout page hand detection unavailable:', e);
       setHint('Hand tracking unavailable');
@@ -1420,6 +1431,8 @@ _setupTimeoutPageInteraction() {
 }
 
 _stopTimeoutPageHandTracking() {
+  clearTimeout(this._timeoutPageIdleTimer);
+  this._timeoutPageIdleTimer = null;
   try { this._timeoutHandsCamera?.stop?.(); } catch (_) {}
   this._timeoutHandsCamera = null;
   this._timeoutHandsObj = null;
